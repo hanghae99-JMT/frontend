@@ -9,6 +9,7 @@ import {
 } from "@mui/material/colors";
 import { Typography, AppBar, Box, TextField } from "@mui/material";
 import ReceiptSharpIcon from "@mui/icons-material/ReceiptSharp";
+import { useNavigate } from "react-router-dom";
 
 export const theme = createTheme({
   spacing: 8,
@@ -31,9 +32,10 @@ export const theme = createTheme({
 });
 
 export const Logo = (props) => {
+  const navigate = useNavigate()
   return (
     <div
-    onClick={props.onClick}
+    onClick={() => navigate("/")}
       style={{ display: "flex", flexDirection: "row", alignItems: "center", cursor:
     "pointer" }}
     >
