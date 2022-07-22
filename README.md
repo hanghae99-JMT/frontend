@@ -1,4 +1,4 @@
-# **Fashion Recommend Mall Search Engine**
+# **JMT Frontend Repository**
 
 ## How to run
 
