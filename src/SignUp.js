@@ -12,7 +12,7 @@ const SignUp = () => {
   const [errors, setErrors] = useState([false, false, false, false]);
   const emailRegExp =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-  const pwRegExp = /^.*(?=^.{8,16}$)(?=.*[a-zA-Z])(?=.*[!@#$%^&*]).*$/
+  const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,16}$/
 
   const checkVal = () => {
     let new_errors = [...errors];
@@ -112,7 +112,6 @@ const SignUp = () => {
             sx={{ my: 1 }}
             label="비밀번호 확인"
             variant="outlined"
-            placeholder="메가진"
             type="password"
             onChange={checkVal}
             error={errors[3]}
