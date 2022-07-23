@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './mypage.module.scss';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 import Store from './store';
 
 const MyPage = () => {

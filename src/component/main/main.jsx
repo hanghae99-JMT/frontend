@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './main.module.scss';
-import { Container } from '@material-ui/core';
+import { Container } from '@mui/material';
 const Main = () => {
     return (
         <Container className={styles.main}>
