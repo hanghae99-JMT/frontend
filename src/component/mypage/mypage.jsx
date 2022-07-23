@@ -5,7 +5,9 @@ import Store from './store';
 
 const MyPage = () => {
     return (
-        <Container className={styles.mypage}>
+        <Container
+            maxWidth='xl'
+            className={styles.mypage}>
             <section className={styles.user}>
                 <p>User Name</p>
                 <p>1234@gmail.com</p>

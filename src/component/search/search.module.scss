@@ -1,29 +1,15 @@
-@font-face {
-  font-family: "Vitro_core";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/Vitro_core.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
 $lighter: "SBAggro-l";
 $orange: #ff6904;
 $green: #559c02;
 $white: rgba(255, 255, 255, 0.9);
 $shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
   rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-.main {
-  padding: 5rem;
+.search {
   height: calc(100vh - 64px);
   background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80");
+    url("https://images.unsplash.com/photo-1547573854-74d2a71d0826?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
   background-size: cover;
-  h1 {
-    font-size: 5rem;
-    color: $orange;
-    font-family: "Vitro_core";
-    text-align: center;
-    cursor: pointer;
-  }
+  padding: 2rem 0;
   form {
     width: 100%;
     display: flex;

@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
-import styles from './main.module.scss';
-import { Button, Container, Input } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import Ranking from './ranking';
-const Main = () => {
+import styles from './search.module.scss';
+import SearchItem from './search_item';
+import { Container, Button } from '@mui/material';
+
+const Search = () => {
     const input_ref = useRef();
     return (
         <Container
             maxWidth='xl'
-            className={styles.main}>
-            <h1>JMT</h1>
+            className={styles.search}>
             <form action="" placeholder=''>
                 <input type="text" placeholder='검색어를 입력 해주세요' ref={input_ref} />
                 <Button
@@ -19,10 +18,10 @@ const Main = () => {
                 >검색</Button>
             </form>
             <ul>
-                <Ranking />
+                <SearchItem />
             </ul>
-        </Container >
+        </Container>
     );
 };
 
-export default Main;
+export default Search;

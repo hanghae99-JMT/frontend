@@ -1,12 +1,20 @@
 $orange: #ff6904;
 $lighter: "SBAggro-l";
+$white: rgba(255, 255, 255, 0.9);
 $shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
   rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 .mypage {
+  padding: 2rem;
+  height: calc(100vh - 64px);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url("https://images.unsplash.com/photo-1527598041828-aea5d622f3a8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+  background-size: cover;
   .user {
     padding: 2rem 0;
     p {
       padding: 0.5rem 0;
+      color: #fff;
+      font-size: 1.2rem;
     }
   }
   .tab {
