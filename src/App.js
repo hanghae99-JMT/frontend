@@ -1,10 +1,11 @@
-import logo from './logo.svg';
+
 import './App.css';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import { ThemeProvider, Button, ButtonGroup, Toolbar, Box } from '@mui/material';
 import {theme, Logo, Header} from "./Styles.js"
 import {Routes, Route, useNavigate, useLocation} from "react-router-dom"
+import MyPage from "./component/mypage/mypage";
 
 function App() {
   const navigate = useNavigate()
@@ -46,6 +47,7 @@ function App() {
         <Routes>
           <Route path="/sign_in" element={<SignIn/>} />
           <Route path="/sign_up" element={<SignUp/>} />
+          <Route path="/mypage" element={<MyPage/>} />
         </Routes>
       </ThemeProvider>
     </div>

@@ -1,0 +1,41 @@
+$orange: #ff6904;
+$lighter: "SBAggro-l";
+$shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+  rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+.store {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: $shadow;
+  padding: 2rem;
+  border-radius: 20px;
+  margin: 1rem 0;
+  ul {
+    li {
+      p {
+        padding: 0.5rem 0;
+      }
+      .name {
+        font-size: 1.5rem;
+      }
+      .address {
+        font-family: $lighter;
+      }
+      .desc {
+        font-family: $lighter;
+      }
+    }
+  }
+  .like {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    span {
+      font-size: 2rem;
+    }
+    p {
+      color: $orange;
+    }
+  }
+}

@@ -1,0 +1,40 @@
+$orange: #ff6904;
+$lighter: "SBAggro-l";
+$shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+  rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+.mypage {
+  .user {
+    padding: 2rem 0;
+    p {
+      padding: 0.5rem 0;
+    }
+  }
+  .tab {
+    .tab_menu {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      li {
+        text-align: center;
+        padding: 0.5rem 0;
+        width: 50%;
+        border: 2px solid $orange;
+        transition: all 0.3s;
+        &:first-child {
+          border-right: none;
+          border-radius: 10px 0 0 10px;
+        }
+        &:last-child {
+          border-radius: 0 10px 10px 0;
+        }
+        &:hover {
+          background-color: $orange;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .store {
+    width: 100%;
+  }
+}
