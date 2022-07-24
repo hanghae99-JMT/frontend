@@ -1,20 +1,28 @@
 import React, { useRef, useState, Suspense } from "react";
 import { Box, Container, Typography, Button, TextField } from "@mui/material";
 import { Logo, UserTextField } from "./Styles";
+import { useDispatch, useSelector } from "react-redux"
+import { loginThunk } from "./redux/userSlice";
 
 const SignIn = () => {
   const input_email = useRef();
   const input_pw = useRef();
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   const signin = async () => {
     try{
-    alert("로그인 성공!")
-}
+      dispatch(loginThunk({id: input_email.current.value, pw: input_pw.current.value}))
+    }
     catch(e) {
       alert("로그인 실패. 아이디와 비밀번호를 확인하세요")
     }
     
   }
+
+  React.useEffect(() => {
+    console.log(user)
+  },[user])
 
   return (
     <>
@@ -34,7 +42,7 @@ const SignIn = () => {
         <Box sx={{backgroundColor: "rgba(255,255,255,0.8)", padding: "2em", boxShadow: "0 3px 8px rgba(0,0,0,.5)", borderRadius: "5px"}}>
           <Logo />
           <Typography variant="h5" sx={{ my: 1 }}>
-            로그인
+            로그인 {user?.username}
           </Typography>
           <UserTextField
             inputRef={input_email}

@@ -2,6 +2,11 @@ import React, { useRef, useState, Suspense } from "react";
 import { Box, Container, Typography, Button, TextField } from "@mui/material";
 import { Logo, UserTextField } from "./Styles";
 import styled from "@emotion/styled";
+import {useDispatch, useSelector} from "react-redux"
+import { signUpThunk, emailCheckThunk } from "./redux/userSlice";
+import { FormHelperText } from '@mui/material';
+const axios = require("axios");
+
 
 const SignUp = () => {
   const input_name = useRef();
@@ -10,9 +15,58 @@ const SignUp = () => {
   const input_pw_confirm = useRef();
   const [signuppable, setSignuppable] = useState(false);
   const [errors, setErrors] = useState([false, false, false, false]);
-  const emailRegExp =
-    /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-  const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,16}$/
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+  const emailRegExp = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+  const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+])[A-Za-z\d@$!%*+?&0-9]{8,16}$/
+  const [validEmail, setValidEmail] = useState(false)
+
+  const signup = async () => {
+    try{
+      dispatch(signUpThunk({id: input_email.current.value, username: input_name.current.value, pw: input_pw.current.value}))
+    }
+    catch(e) {
+      alert(e.message)
+    }
+  }
+
+  // ^(?=.*[A-Za-z])(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$
+
+  // const emailCheckClick = () => {
+  //   if(emailCheck()){
+  //     alert("사용 가능한 메일입니다.")
+  //   }else{
+  //     alert("이미 등록된 메일입니다.")
+  //     setValidEmail(false)
+  //   }
+  // }
+
+  const emailCheck = async () => {
+    let valid = false
+    try{
+      await axios({
+        method: "get",
+        data: {},
+        url: `https://d823-119-56-188-115.jp.ngrok.io/api/users/${input_email.current.value}`,
+      })
+        .then((res) => {
+          valid = true
+      setValidEmail(true)
+      alert("사용 가능한 메일입니다.")
+    })
+        .catch((e) => {
+          if (e.response) {
+            alert(e.message);
+            valid = false
+      setValidEmail(false)
+      alert(e.response.data.message)
+    }
+        });
+    }catch(e) {
+      valid = false
+    }
+    return valid
+  }
 
   const checkVal = () => {
     let new_errors = [...errors];
@@ -47,16 +101,6 @@ const SignUp = () => {
     return res;
   };
 
-  const signup = async () => {
-    console.log(checkVal);
-    if (checkVal()) {
-      alert("가입을 축하합니다!");
-      // navigate("/");
-    } else {
-      alert("입력값이 잘못되었습니다!");
-    }
-  };
-
   return (
     <>
       <Box
@@ -77,9 +121,10 @@ const SignUp = () => {
           <Typography variant="h5" sx={{ my: 1 }}>
             회원가입
           </Typography>
+          <div style={{display: "flex", flexDirection: "row", alignItems: 'center'}}>
           <UserTextField
             inputRef={input_email}
-            sx={{ my: 1 }}
+            sx={{ my: 1, flexGrow: 2}}
             label="아이디(이메일)"
             variant="outlined"
             placeholder="example@email.com"
@@ -87,12 +132,17 @@ const SignUp = () => {
             error={errors[0]}
             helperText={errors[0] ? "이메일 형식이 잘못되었습니다."  : false}
           />
+          <div>
+          <Button onClick={emailCheck} variant="contained" sx={{flexGrow: 1}}>중복확인</Button>
+          <FormHelperText error={!validEmail}>{!validEmail ? "중복 확인 필요" : "중복 확인 완료"}</FormHelperText>
+          </div>
+          </div>
           <UserTextField
             inputRef={input_name}
             sx={{ my: 1 }}
             label="이름"
             variant="outlined"
-            placeholder="메가진"
+            placeholder="존맛탱"
             onChange={checkVal}
             error={errors[1]}
             helperText={errors[1] ? "이름을 입력해주세요."  : false}
@@ -122,7 +172,7 @@ const SignUp = () => {
             style={{ display: "block" }}
             onClick={signup}
             variant="contained"
-            disabled={!signuppable}
+            disabled={!signuppable || !validEmail}
             color="secondary"
           >
             회원가입

@@ -24,7 +24,10 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'SBAggroM',
+    fontFamily: 'SBAggroM, SBAggroB',
+    h3: {
+      fontFamily: 'SBAggroB',
+    },
     h5: {
       // fontFamily: '"Black Han Sans", sans-serif'
     },
@@ -54,6 +57,7 @@ export const Logo = (props) => {
 //     fontWeight: "900",
 //     fontStyle: "italic"
 // }))
+
 export const Header = styled(AppBar)(({ theme }) => ({
   backgroundColor: "transparent",
   boxShadow: `0 1px 10px #eee`,
@@ -63,11 +67,28 @@ export const Header = styled(AppBar)(({ theme }) => ({
 
 export const UserTextField = styled(TextField)`
     display: block;
+    .MuiInputBase-root{
+    width: 100%;
+
+    }
     input{
         background-color: white;
         border-radius: inherit;
     }
     p{
         white-space: pre;
+    }
+`
+export const InheritHeightInputBox = styled(TextField)`
+    .MuiTextField-root{
+      height: 100%;
+      border-radius: 5em 0 0 5em;
+    }
+    .MuiInputBase-root{
+      height: inherit;
+      border-radius: 5rem 0 0 5rem;
+    }
+    textarea{
+      padding-left: 2.5em;
     }
 `
