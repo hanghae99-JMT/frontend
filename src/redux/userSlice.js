@@ -131,7 +131,7 @@ const userSlice = createSlice({
   reducers: {
     logoutUser(state, action) {
         sessionStorage.removeItem("token")
-        state.user = null;
+        state.user = { user: { id: "", username: "" } };
         alert("로그아웃")
     },
   },

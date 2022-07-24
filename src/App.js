@@ -12,7 +12,7 @@ import { theme, Logo, Header } from "./Styles.js";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import MyPage from "./component/mypage/mypage";
 import Detail from "./component/detail/Detail";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userSlice, { loginCheckThunk, logoutUser } from "./redux/userSlice";
 const axios = require("axios");
@@ -22,7 +22,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false);
 
   // 로그인 체크
   const loginCheck = async (token) => {
@@ -37,31 +37,30 @@ function App() {
     })
       .then((res) => {
         valid = true;
-        alert("확인완료")
+        alert("확인완료");
       })
       .catch((e) => {
         valid = false;
-        alert("유효하지 않음")
+        alert("유효하지 않음");
       });
     return valid;
   };
 
   console.log(sessionStorage.getItem("token"));
   useEffect(() => {
-    loginCheck(sessionStorage.getItem("token"))
-    // console.log(sessionStorage.getItem("token"));
-    // //쿠키에 저장된 액세스 토큰이 존재할 때만 서버에 검증 요청
-    // if (sessionStorage.getItem("token")) {
-    //   // 토큰이 유효하지 않으면
-    //   if(!loginCheck(sessionStorage.getItem("token"))) {
-    //     // 토큰 삭제
-    //     sessionStorage.removeItem("token")
-    //     dispatch(logoutUser())
-    //     setIsLogin(false)
-    //   }else{
-    //     setIsLogin(true)
-    //   };
-    // }
+    // loginCheck(sessionStorage.getItem("token"))
+    console.log(sessionStorage.getItem("token"));
+    //쿠키에 저장된 액세스 토큰이 존재할 때만 서버에 검증 요청
+    if (sessionStorage.getItem("token")) {
+      // 토큰이 유효하지 않으면
+      if (loginCheck(sessionStorage.getItem("token"))) {
+        // 토큰 삭제
+        dispatch(logoutUser());
+        setIsLogin(false);
+      } else {
+        setIsLogin(true);
+      }
+    }
   }, [user, location]);
   return (
     <div className="App">
@@ -73,11 +72,9 @@ function App() {
           <Header position="static">
             <Toolbar>
               <Logo />
-
               <Box sx={{ flexGrow: 1 }} />
               {/* {isLogin && <Avatar src={ user?.profileSrc ?  user?.profileSrc: MoominIcon}></Avatar>}
               {isLogin && <Typography sx={{mx: 2}}>{user?.name}님, 환영합니다!</Typography>} */}
-샐러드 야채 계란
               {true && (
                 <ButtonGroup
                   variant="text"
@@ -85,7 +82,11 @@ function App() {
                 >
                   {/* {!isLogin && ( */}
                   <Button onClick={() => navigate("/sign_up")}>회원가입</Button>
-                  <Button onClick={() => sessionStorage.removeItem("token")}>로그아웃</Button>
+                  <Button onClick={() => {
+                    dispatch(logoutUser())
+                    }}>
+                    로그아웃
+                  </Button>
                   {/* )} */}
                   {/* {!isLogin && ( */}
                   <Button onClick={() => navigate("/sign_in")}>로그인</Button>
