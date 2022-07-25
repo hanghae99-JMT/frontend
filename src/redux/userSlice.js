@@ -10,7 +10,7 @@ export const loginThunk = createAsyncThunk(
     let tmp = null;
     await axios({
       method: "post",
-      url: "https://d823-119-56-188-115.jp.ngrok.io/api/signin",
+      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/signin",
       data: {
         id: id,
         pw: pw,
@@ -47,7 +47,7 @@ export const loginCheckThunk = createAsyncThunk(
     await axios({
       method: "get",
       data: {},
-      url: "https://d823-119-56-188-115.jp.ngrok.io/api/user/token",
+      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/user/token",
       headers: {
         Authorization: `${token}`,
       },
@@ -72,7 +72,7 @@ export const emailCheckThunk = createAsyncThunk(
     await axios({
       method: "get",
       data: {},
-      url: `https://d823-119-56-188-115.jp.ngrok.io/api/users/${id}`,
+      url: `https://3b69-119-56-188-115.jp.ngrok.io/api/users/${id}`,
     })
       .then((res) => {
         console.log(res);
@@ -95,7 +95,7 @@ export const signUpThunk = createAsyncThunk(
     let data = null;
     await axios({
       method: "post",
-      url: "https://d823-119-56-188-115.jp.ngrok.io/api/signup",
+      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/signup",
       data: {
         id: id,
         username: username,
@@ -117,6 +117,7 @@ export const signUpThunk = createAsyncThunk(
     //   const accessToken = data.token;
     //   sessionStorage.setItem("is_login", `${accessToken}`);
       alert("가입을 축하합니다!")
+      window.location.href = "/"
     //   return {
     //     id: data.id,
     //     username: data.username,
@@ -133,12 +134,14 @@ const userSlice = createSlice({
         sessionStorage.removeItem("token")
         state.user = { user: { id: "", username: "" } };
         alert("로그아웃")
+        window.location.reload()
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginThunk.fulfilled, (state, action) => {
       console.log(action.payload);
       state.user = action.payload;
+      window.location.href = "/"
     });
     builder.addCase(signUpThunk.fulfilled, (state, action) => {
       console.log(action.payload);

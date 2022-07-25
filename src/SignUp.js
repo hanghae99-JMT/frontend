@@ -58,7 +58,7 @@ const SignUp = () => {
       await axios({
         method: "get",
         data: {},
-        url: `https://d823-119-56-188-115.jp.ngrok.io/api/users/${input_email.current.value}`,
+        url: `https://3b69-119-56-188-115.jp.ngrok.io/api/users/${input_email.current.value}`,
       })
         .then((res) => {
           valid = true;
@@ -173,8 +173,9 @@ const SignUp = () => {
               <Button
                 onClick={emailCheck}
                 variant="contained"
-                sx={{ flexGrow: 1 }}
+                sx={{ flexGrow: 1, minWidth: "fit-content", whiteSpace: "nowrap" }}
                 disabled={!emailcheckable}
+                size="medium"
               >
                 중복확인
               </Button>

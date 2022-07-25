@@ -82,13 +82,13 @@ export const UserTextField = styled(TextField)`
 export const InheritHeightInputBox = styled(TextField)`
     .MuiTextField-root{
       height: 100%;
-      border-radius: 5em 0 0 5em;
+      /* border-radius: 5em 0 0 5em; */
     }
     .MuiInputBase-root{
       height: inherit;
-      border-radius: 5rem 0 0 5rem;
+      /* border-radius: 5rem 0 0 5rem; */
     }
     textarea{
-      padding-left: 2.5em;
+      /* padding-left: 2.5em; */
     }
 `

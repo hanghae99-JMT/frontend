@@ -3,11 +3,13 @@ import { Box, Container, Typography, Button, TextField } from "@mui/material";
 import { Logo, UserTextField } from "./Styles";
 import { useDispatch, useSelector } from "react-redux"
 import { loginThunk } from "./redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const input_email = useRef();
   const input_pw = useRef();
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const user = useSelector(state => state.user)
 
   const signin = async () => {
@@ -42,7 +44,7 @@ const SignIn = () => {
         <Box sx={{backgroundColor: "rgba(255,255,255,0.8)", padding: "2em", boxShadow: "0 3px 8px rgba(0,0,0,.5)", borderRadius: "5px"}}>
           <Logo />
           <Typography variant="h5" sx={{ my: 1 }}>
-            로그인 {user?.username}
+            로그인
           </Typography>
           <UserTextField
             inputRef={input_email}

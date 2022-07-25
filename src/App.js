@@ -30,7 +30,7 @@ function App() {
     await axios({
       method: "get",
       data: {},
-      url: "https://d823-119-56-188-115.jp.ngrok.io/api/user/token",
+      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/user/token",
       headers: {
         Authorization: `${token}`,
       },
@@ -53,7 +53,7 @@ function App() {
     //쿠키에 저장된 액세스 토큰이 존재할 때만 서버에 검증 요청
     if (sessionStorage.getItem("token")) {
       // 토큰이 유효하지 않으면
-      if (loginCheck(sessionStorage.getItem("token"))) {
+      if (!loginCheck(sessionStorage.getItem("token"))) {
         // 토큰 삭제
         dispatch(logoutUser());
         setIsLogin(false);
@@ -103,6 +103,7 @@ function App() {
             </Toolbar>
           </Header>
         )}
+        {isLogin.toString()}
         <Routes>
           <Route path="/sign_in" element={<SignIn />} />
           <Route path="/sign_up" element={<SignUp />} />
