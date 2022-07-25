@@ -20,13 +20,13 @@ export const theme = createTheme({
     },
     secondary: {
       main: "#559C02",
-      contrastText: "#FFFFFF"
+      contrastText: "#FFFFFF",
     },
   },
   typography: {
-    fontFamily: 'SBAggroM, SBAggroB',
+    fontFamily: "SBAggroM, SBAggroB",
     h3: {
-      fontFamily: 'SBAggroB',
+      fontFamily: "SBAggroB",
     },
     h5: {
       // fontFamily: '"Black Han Sans", sans-serif'
@@ -35,17 +35,25 @@ export const theme = createTheme({
 });
 
 export const Logo = (props) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <div
-    onClick={() => navigate("/")}
-      style={{ display: "flex", flexDirection: "row", alignItems: "center", cursor:
-    "pointer" }}
+      onClick={() => navigate("/")}
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        cursor: "pointer",
+      }}
     >
       <Typography
         variant="h3"
         component="div"
-        style={{ fontWeight: "900", fontFamily: 'Vitro_core', color: "#FF6900" }}
+        style={{
+          fontWeight: "900",
+          fontFamily: "Vitro_core",
+          color: "#FF6900",
+        }}
       >
         JMT
       </Typography>
@@ -66,29 +74,28 @@ export const Header = styled(AppBar)(({ theme }) => ({
 }));
 
 export const UserTextField = styled(TextField)`
-    display: block;
-    .MuiInputBase-root{
+  display: block;
+  .MuiInputBase-root {
     width: 100%;
-
-    }
-    input{
-        background-color: white;
-        border-radius: inherit;
-    }
-    p{
-        white-space: pre;
-    }
-`
+  }
+  input {
+    background-color: white;
+    border-radius: inherit;
+  }
+  p {
+    white-space: pre;
+  }
+`;
 export const InheritHeightInputBox = styled(TextField)`
-    .MuiTextField-root{
-      height: 100%;
-      /* border-radius: 5em 0 0 5em; */
-    }
-    .MuiInputBase-root{
-      height: inherit;
-      /* border-radius: 5rem 0 0 5rem; */
-    }
-    textarea{
-      /* padding-left: 2.5em; */
-    }
-`
+  .MuiTextField-root {
+    height: 100%;
+    /* border-radius: 5em 0 0 5em; */
+  }
+  .MuiInputBase-root {
+    height: inherit;
+    /* border-radius: 5rem 0 0 5rem; */
+  }
+  textarea {
+    /* padding-left: 2.5em; */
+  }
+`;

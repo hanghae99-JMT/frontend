@@ -84,9 +84,11 @@ function App() {
                 >
                   {/* {!isLogin && ( */}
                   <Button onClick={() => navigate("/sign_up")}>회원가입</Button>
-                  <Button onClick={() => {
-                    dispatch(logoutUser())
-                    }}>
+                  <Button
+                    onClick={() => {
+                      dispatch(logoutUser());
+                    }}
+                  >
                     로그아웃
                   </Button>
                   {/* )} */}
@@ -112,7 +114,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/detail" element={<Detail />} />
           <Route path="/" element={<Main />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/search/:searchURL" element={<Search />} />
         </Routes>
       </ThemeProvider>
     </div>

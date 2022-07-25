@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './mypage.module.scss';
 import { Container } from '@mui/material';
 import Store from './store';
 import { getUserLikeThunk } from '../../redux/modules/restaurantSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Myreview from './myreview';
 
 const MyPage = () => {
     const data = useSelector(state => state.restaurant.user);
     const dispatch = useDispatch();
+    const [tab, setTab] = useState(0);
     useEffect(() => {
         dispatch(getUserLikeThunk());
-    }, [])
+    }, []);
     return (
         <Container
             maxWidth='xl'
@@ -21,13 +23,16 @@ const MyPage = () => {
                 <p>1234@gmail.com</p>
             </section>
             <section className={styles.tab}>
-                {/* <ul className={styles.tab_menu}>
-                    <li>좋아요 한 가게</li>
-                    <li>후기</li>
-                </ul> */}
-                <ul className={styles.store}>
-                    {data && data.map(item => <Store key={item.rid} item={item} />)}
+                <ul className={styles.tab_menu}>
+                    {tab === 0 ? <li onClick={() => setTab(0)} className={styles.focus}>좋아요 한 가게</li> : <li onClick={() => setTab(0)}>좋아요 한 가게</li>}
+                    {tab === 1 ? <li onClick={() => setTab(1)} className={styles.focus}>후기</li> : <li onClick={() => setTab(1)} >후기</li>}
                 </ul>
+                {tab === 0 && <ul className={styles.tab_cont}>
+                    {data && data.map(item => <Store key={item.rid} item={item} />)}
+                </ul>}
+                {tab === 1 && <ul className={styles.tab_cont}>
+                    <Myreview />
+                </ul>}
             </section>
         </Container>
     );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './main.module.scss';
 import Ranking from './ranking';
 import { Button, Container } from '@mui/material';
@@ -7,19 +7,30 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Main = () => {
-    const data = useSelector(state => state.restaurant.restaurant);
+    const [ranking, setRanking] = useState([]);
     const input_ref = useRef();
     const navigate = useNavigate();
-    const search = async (e) => {
+    useEffect(() => {
+        axios({
+            method: "get",
+            url: 'http://localhost:5001/ranking',
+        }).then(response => setRanking(response.data));
+    }, []);
+    let lat, lng;
+    const onGeoOkay = (position) => {
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
+    }
+    const onGeoError = () => {
+        alert("I can't find you. No weather for you.");
+    }
+    navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
+    const search = (e) => {
         e.preventDefault();
         let keyword = input_ref.current.value;
-        let x = "1"
-        let y = "2"
-        await axios({
-            method: "get",
-            url: `http://localhost:5001/search?keyword=${keyword}&x=${x}&y=${y}`,
-        }).then((response) => console.log(response));
-        navigate(`/search`);
+        let x = lat
+        let y = lng
+        { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search/keyword=${keyword}&x=${x}&y=${y}=[1]`); }
     }
     return (
         <Container
@@ -28,7 +39,7 @@ const Main = () => {
             className={styles.main}>
             <h1>JMT</h1>
             <form action="" placeholder=''>
-                <input type="text" placeholder='검색어를 입력 해주세요' ref={input_ref} />
+                <input type="text" placeholder='검색어를 입력해주세요' ref={input_ref} />
                 <Button
                     className={styles.button}
                     variant='contained'
@@ -37,7 +48,7 @@ const Main = () => {
                 >검색</Button>
             </form>
             <ul>
-                {data && data.map((item, index) => <Ranking key={item.rid} index={index} data={item} />)}
+                {ranking && ranking.map((item, index) => <Ranking key={item.rid} data={item} />)}
             </ul>
         </Container >
     );
