@@ -10,11 +10,13 @@ import {
 } from "@mui/material";
 import { theme, Logo, Header } from "./Styles.js";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import MyPage from "./component/mypage/mypage";
 import Detail from "./component/detail/Detail";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import userSlice, { loginCheckThunk, logoutUser } from "./redux/userSlice";
+import Main from "./component/main/main";
+import MyPage from "./component/mypage/mypage";
+import Search from "./component/search/search";
 const axios = require("axios");
 
 function App() {
@@ -37,11 +39,11 @@ function App() {
     })
       .then((res) => {
         valid = true;
-        alert("확인완료");
+        // alert("확인완료");
       })
       .catch((e) => {
         valid = false;
-        alert("유효하지 않음");
+        // alert("유효하지 않음");
       });
     return valid;
   };
@@ -109,6 +111,8 @@ function App() {
           <Route path="/sign_up" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/detail" element={<Detail />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </ThemeProvider>
     </div>

@@ -1,0 +1,80 @@
+{
+  "ranking": [
+    {
+      "rid": 1,
+      "name": "가게이름",
+      "category": "한식",
+      "description": "삼겹살집",
+      "address": "동성로",
+      "phone": "053-111-1234",
+      "like": 2,
+      "x": "200",
+      "y": "100",
+      "url": "http://localhost:3000"
+    },
+    {
+      "rid": 2,
+      "name": "가게이름",
+      "category": "양식",
+      "description": "피자집",
+      "address": "범어동",
+      "phone": "053-222-1234",
+      "like": 3,
+      "x": "300",
+      "y": "500",
+      "url": "http://localhost:3000"
+    }
+  ],
+  "likes": [
+    {
+      "rid": 2,
+      "name": "맛있었던가게이름",
+      "category": "중식",
+      "description": "존맛 자장면집",
+      "address": "평리동",
+      "phone": "070-112-1234",
+      "like": 130,
+      "x": "400",
+      "y": "700",
+      "url": "http://localhost:3000"
+    }
+  ],
+  "search": [
+    {
+      "rid": 2,
+      "name": "맛있었던가게이름",
+      "category": "중식",
+      "description": "존맛 자장면집",
+      "address": "평리동",
+      "phone": "070-112-1234",
+      "like": 130,
+      "x": "400",
+      "y": "700",
+      "url": "http://localhost:3000"
+    },
+    {
+      "rid": 2,
+      "name": "맛있었던가게이름",
+      "category": "중식",
+      "description": "존맛 자장면집",
+      "address": "평리동",
+      "phone": "070-112-1234",
+      "like": 130,
+      "x": "400",
+      "y": "700",
+      "url": "http://localhost:3000"
+    },
+    {
+      "rid": 2,
+      "name": "맛있었던가게이름",
+      "category": "중식",
+      "description": "존맛 자장면집",
+      "address": "평리동",
+      "phone": "070-112-1234",
+      "like": 130,
+      "x": "400",
+      "y": "700",
+      "url": "http://localhost:3000"
+    }
+  ]
+}
