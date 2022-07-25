@@ -133,7 +133,7 @@ const userSlice = createSlice({
     logoutUser(state, action) {
         sessionStorage.removeItem("token")
         state.user = { user: { id: "", username: "" } };
-        alert("로그아웃")
+        // alert("로그아웃")
         window.location.reload()
     },
   },
