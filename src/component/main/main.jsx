@@ -5,6 +5,7 @@ import { Button, Container } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import JMTapis from '../../shared/resquests';
 
 const Main = () => {
     const [ranking, setRanking] = useState([]);
@@ -12,10 +13,7 @@ const Main = () => {
     let lat, lng;
     const navigate = useNavigate();
     useEffect(() => {
-        axios({
-            method: "get",
-            url: 'https://910e-61-85-61-48.jp.ngrok.io/api/ranking',
-        }).then(response => setRanking(response.data));
+        JMTapis.getRanking().then(response => setRanking(response.data));
     }, []);
     const onGeoOkay = (position) => {
         lat = position.coords.latitude;

@@ -9,6 +9,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import axios from "axios";
+import JMTapis from "../../shared/resquests";
 
 const Search = () => {
   const input_ref = useRef();
@@ -48,18 +49,15 @@ const Search = () => {
   };
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
-    const x = lat + "";
-    const y = lng + "";
+    const y = lat + "";
+    const x = lng + "";
     if (lat) {
-      axios({
-        method: "get",
-        url: `https://b864-59-24-129-68.jp.ngrok.io/api/search`,
-        params: {
-          keyword: searchParams.get("keyword"),
-          y: x,
-          x: y,
-          page: pageNumber,
-        },
+        console.log(pageNumber);
+      JMTapis.searchRestaurant({
+        keyword: searchParams.get("keyword"),
+        y: y,
+        x: x,
+        page: pageNumber,
       }).then((response) => {
         setSearchData(response.data.searchResult);
 

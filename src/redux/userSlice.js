@@ -1,43 +1,46 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { useNavigate } from "react-router-dom";
-
+import JMTapis from "../shared/resquests";
 const axios = require("axios");
 
 export const loginThunk = createAsyncThunk(
   "user/login",
-  async ({ id, pw }, thunkAPI) => {
+  async (userData, thunkAPI) => {
+    console.log(userData);
     let data = null;
     let tmp = null;
-    await axios({
-      method: "post",
-      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/signin",
-      data: {
-        id: id,
-        pw: pw,
-      },
-    })
+    let flag = false;
+    let fetchedData = null
+    await JMTapis.loginUser(userData)
       .then((res) => {
-        console.log(res.data.id);
+        console.log(userData);
+        console.log("얍얍얍!!!!");
+        console.log("로그인 호출 완료 시점" + res.data.token);
+        flag = true;
         data = res.data;
         tmp = res;
+        console.log(data)
       })
       .catch((e) => {
         alert(e.response.data.message);
       });
 
-    if (data.error) {
-      console.log(data.error);
-      return thunkAPI.rejectWithValue(data);
-    } else {
+    // if (data.error) {
+    //   console.log(data.error);
+    //   return thunkAPI.rejectWithValue(data);
+    // } else {
+
+    console.log(data);
+    if (flag) {
       const accessToken = data.token;
       sessionStorage.setItem("token", `${accessToken}`);
       return {
         id: data.id,
         username: data.username,
-        token: data.token,
       };
     }
   }
+  //   }
 );
 
 export const loginCheckThunk = createAsyncThunk(
@@ -47,7 +50,7 @@ export const loginCheckThunk = createAsyncThunk(
     await axios({
       method: "get",
       data: {},
-      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/user/token",
+      url: "https://b864-59-24-129-68.jp.ngrok.io/api/user/token",
       headers: {
         Authorization: `${token}`,
       },
@@ -72,7 +75,7 @@ export const emailCheckThunk = createAsyncThunk(
     await axios({
       method: "get",
       data: {},
-      url: `https://3b69-119-56-188-115.jp.ngrok.io/api/users/${id}`,
+      url: `https://b864-59-24-129-68.jp.ngrok.io/api/users/${id}`,
     })
       .then((res) => {
         console.log(res);
@@ -94,7 +97,7 @@ export const signUpThunk = createAsyncThunk(
     let data = null;
     await axios({
       method: "post",
-      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/signup",
+      url: "https://b864-59-24-129-68.jp.ngrok.io/api/signup",
       data: {
         id: id,
         username: username,
@@ -140,7 +143,7 @@ const userSlice = createSlice({
     builder.addCase(loginThunk.fulfilled, (state, action) => {
       console.log(action.payload);
       state.user = action.payload;
-      window.location.href = "/";
+      //   window.location.href = "/";
     });
     builder.addCase(signUpThunk.fulfilled, (state, action) => {
       console.log(action.payload);

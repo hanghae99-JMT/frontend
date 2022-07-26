@@ -4,6 +4,7 @@ import { Container } from '@mui/material';
 import Store from './store';
 import { useDispatch, useSelector } from 'react-redux';
 import Myreview from './myreview';
+import JMTapis from '../../shared/resquests';
 import axios from 'axios';
 
 const MyPage = () => {
@@ -14,23 +15,11 @@ const MyPage = () => {
     const [review, setReview] = useState([]);
     const token = sessionStorage.getItem("token")
     useEffect(() => {
-        console.log(data);
+        console.log(data.id);
         if (tab === 0) {
-            axios({
-                method: "get",
-                url: `https://b864-59-24-129-68.jp.ngrok.io/api/user/${data.id}/likes`,
-                headers: {
-                    Authorization: `${token}`,
-                  },
-            }).then(response => setLike(response.data));
+            JMTapis.myLikes(`${data.id}`).then(response => setLike(response.data));
         } else {
-            axios({
-                method: "get",
-                url: `https://b864-59-24-129-68.jp.ngrok.io/api/user/${data.id}/review`,
-                headers: {
-                    Authorization: `${token}`,
-                  },
-            }).then(response => setReview(response.data));
+            JMTapis.myReviews(`${data.id}`).then(response => setReview(response.data));
         }
     }, [tab]);
     return (
