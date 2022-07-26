@@ -114,7 +114,7 @@ function App() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/detail" element={<Detail />} />
           <Route path="/" element={<Main />} />
-          <Route path="/search/:searchURL" element={<Search />} />
+          <Route path="/search" element={<Search />} />
         </Routes>
       </ThemeProvider>
     </div>

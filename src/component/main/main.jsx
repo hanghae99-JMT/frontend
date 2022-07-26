@@ -9,14 +9,14 @@ import axios from 'axios';
 const Main = () => {
     const [ranking, setRanking] = useState([]);
     const input_ref = useRef();
+    let lat, lng;
     const navigate = useNavigate();
     useEffect(() => {
         axios({
             method: "get",
-            url: 'http://localhost:5001/ranking',
+            url: 'https://910e-61-85-61-48.jp.ngrok.io/api/ranking',
         }).then(response => setRanking(response.data));
     }, []);
-    let lat, lng;
     const onGeoOkay = (position) => {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -30,7 +30,7 @@ const Main = () => {
         let keyword = input_ref.current.value;
         let x = lat
         let y = lng
-        { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search/keyword=${keyword}&x=${x}&y=${y}=[1]`); }
+        { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`); }
     }
     return (
         <Container
