@@ -22,6 +22,10 @@ export const theme = createTheme({
       main: "#559C02",
       contrastText: "#FFFFFF"
     },
+    thirdary: {
+      main: "#FFFFFF",
+      contrastText: "#FF6900"
+    }
   },
   typography: {
     fontFamily: 'SBAggroM, SBAggroB',

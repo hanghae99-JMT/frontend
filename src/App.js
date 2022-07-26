@@ -25,6 +25,10 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [isLogin, setIsLogin] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false)
+  const handleClose = (value) => {
+    setOpenDetail(false);
+  };
 
   // 로그인 체크
   const loginCheck = async (token) => {
@@ -32,7 +36,7 @@ function App() {
     await axios({
       method: "get",
       data: {},
-      url: "https://3b69-119-56-188-115.jp.ngrok.io/api/user/token",
+      url: "https://54db-61-85-61-48.jp.ngrok.io/api/user/token",
       headers: {
         Authorization: `${token}`,
       },
@@ -96,7 +100,7 @@ function App() {
                   <Button onClick={() => navigate("/mypage")}>
                     마이페이지
                   </Button>
-                  <Button onClick={() => navigate("/detail")}>가게상세</Button>
+                  <Button onClick={() => setOpenDetail(true)}>가게상세</Button>
                   {/* )} */}
                   {/* {isLogin && <Button onClick={logout}>로그아웃</Button>}
                   {isLogin && <Button onClick={addpost}>글쓰기</Button>} */}
@@ -106,15 +110,17 @@ function App() {
           </Header>
         )}
         {isLogin.toString()}
+        <Detail open={openDetail} onClose={handleClose}/>
         <Routes>
           <Route path="/sign_in" element={<SignIn />} />
           <Route path="/sign_up" element={<SignUp />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/detail" element={<Detail />} />
+          {/* <Route path="/detail" element={<Detail />} /> */}
           <Route path="/" element={<Main />} />
           <Route path="/search" element={<Search />} />
         </Routes>
       </ThemeProvider>
+      {/* {!openDetail && <div id="map"></div>} */}
     </div>
   );
 }
