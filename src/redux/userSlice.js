@@ -80,8 +80,7 @@ export const emailCheckThunk = createAsyncThunk(
       .catch((e) => {
         if (e.response) {
           alert(e.message);
-        }else{
-
+        } else {
         }
         thunkAPI.rejectWithValue(e);
       });
@@ -111,37 +110,37 @@ export const signUpThunk = createAsyncThunk(
       });
 
     if (data.error) {
-      console.log(data.error)
-        return thunkAPI.rejectWithValue(data);
+      console.log(data.error);
+      return thunkAPI.rejectWithValue(data);
     } else {
-    //   const accessToken = data.token;
-    //   sessionStorage.setItem("is_login", `${accessToken}`);
-      alert("가입을 축하합니다!")
-      window.location.href = "/"
-    //   return {
-    //     id: data.id,
-    //     username: data.username,
-    //   };
+      //   const accessToken = data.token;
+      //   sessionStorage.setItem("is_login", `${accessToken}`);
+      alert("가입을 축하합니다!");
+      window.location.href = "/";
+      //   return {
+      //     id: data.id,
+      //     username: data.username,
+      //   };
     }
   }
 );
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { user: { id: "", username: "" } },
+  initialState: { user: { id: "u", username: "123" } },
   reducers: {
     logoutUser(state, action) {
-        sessionStorage.removeItem("token")
-        state.user = { user: { id: "", username: "" } };
-        // alert("로그아웃")
-        window.location.reload()
+      sessionStorage.removeItem("token");
+      state.user = { user: { id: "", username: "" } };
+      // alert("로그아웃")
+      window.location.reload();
     },
   },
   extraReducers: (builder) => {
     builder.addCase(loginThunk.fulfilled, (state, action) => {
       console.log(action.payload);
       state.user = action.payload;
-      window.location.href = "/"
+      window.location.href = "/";
     });
     builder.addCase(signUpThunk.fulfilled, (state, action) => {
       console.log(action.payload);
@@ -149,7 +148,7 @@ const userSlice = createSlice({
     });
     builder.addCase(emailCheckThunk.fulfilled, (state, action) => {
       console.log(action.payload);
-      return true
+      return true;
     });
     builder.addCase(loginThunk.rejected, (state, action) => {
       console.log(action.payload);
@@ -159,4 +158,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const {logoutUser} = userSlice.actions
+export const { logoutUser } = userSlice.actions;

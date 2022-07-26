@@ -88,9 +88,11 @@ function App() {
                 >
                   {/* {!isLogin && ( */}
                   <Button onClick={() => navigate("/sign_up")}>회원가입</Button>
-                  <Button onClick={() => {
-                    dispatch(logoutUser())
-                    }}>
+                  <Button
+                    onClick={() => {
+                      dispatch(logoutUser());
+                    }}
+                  >
                     로그아웃
                   </Button>
                   {/* )} */}

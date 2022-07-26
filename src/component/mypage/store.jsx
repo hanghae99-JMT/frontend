@@ -7,7 +7,6 @@ const Store = (props) => {
             <ul>
                 <li><p className={styles.name}>{props.item.name}</p></li>
                 <li><p className={styles.address}>{props.item.address}</p></li>
-                <li><p className={styles.desc}>{props.item.description}</p></li>
             </ul>
             <div className={styles.like}>
                 <span>👍</span>

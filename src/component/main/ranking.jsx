@@ -3,13 +3,11 @@ import styles from './ranking.module.scss';
 
 const Ranking = (props) => {
 
-    // console.log(props.item)
     return (
         <li className={styles.ranking}>
             <ul>
                 <li><p className={styles.name}>{props.data.name}</p></li>
                 <li><p className={styles.address}>{props.data.address}</p></li>
-                <li><p className={styles.desc}>{props.data.description}</p></li>
             </ul>
             <div className={styles.like}>
                 <span>👍</span>
