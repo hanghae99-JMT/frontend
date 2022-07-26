@@ -36,7 +36,7 @@ function App() {
     await axios({
       method: "get",
       data: {},
-      url: "https://54db-61-85-61-48.jp.ngrok.io/api/user/token",
+      url: "https://b864-59-24-129-68.jp.ngrok.io/api/user/token",
       headers: {
         Authorization: `${token}`,
       },
@@ -61,7 +61,7 @@ function App() {
       // 토큰이 유효하지 않으면
       if (!loginCheck(sessionStorage.getItem("token"))) {
         // 토큰 삭제
-        dispatch(logoutUser());
+        // dispatch(logoutUser());
         setIsLogin(false);
       } else {
         setIsLogin(true);
