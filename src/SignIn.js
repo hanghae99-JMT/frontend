@@ -14,7 +14,11 @@ const SignIn = () => {
 
   const signin = async () => {
     try{
-      dispatch(loginThunk({id: input_email.current.value, pw: input_pw.current.value}))
+      dispatch(loginThunk({id: input_email.current.value, pw: input_pw.current.value})).then((res) => {
+        navigate("/")
+      }).catch((e) => {
+        alert("로그인에 실패했습니다. 홈으로 이동합니다.")
+      })
     }
     catch(e) {
       alert("로그인 실패. 아이디와 비밀번호를 확인하세요")

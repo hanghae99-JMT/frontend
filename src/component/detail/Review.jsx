@@ -15,11 +15,11 @@ const Review = (props) => {
     console.log(reviewText.current.value);
     if (reviewText.current.value !== "") {
       axios
-        .post(`https://54db-61-85-61-48.jp.ngrok.io/api/review`, {
+        .post(`https://b864-59-24-129-68.jp.ngrok.io/api/review`, {
           rid,
           text: reviewText.current.value,
         }, {headers:{
-            Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjRAbmF2ZXIuY29tIiwiZXhwIjozNTUwODk5NTc4fQ.8-tcRRoCjtRI9_RXSkhWJthwXJ_lngD46nNR-yIOJNE`,
+            Authorization: `${token}`,
           }})
         .then((res) => {
           alert("등록 완료");
@@ -37,8 +37,8 @@ const Review = (props) => {
   useEffect(() => {
     console.log("triggered");
     axios
-      .get(`https://54db-61-85-61-48.jp.ngrok.io/api/review`,{params: {rid}}, {headers:{
-        Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjRAbmF2ZXIuY29tIiwiZXhwIjozNTUwODk5NTc4fQ.8-tcRRoCjtRI9_RXSkhWJthwXJ_lngD46nNR-yIOJNE`,
+      .get(`https://b864-59-24-129-68.jp.ngrok.io/api/review`,{params: {rid}}, {headers:{
+        Authorization: `${token}`,
       }})
       .then((res) => {
         console.log(res.data);

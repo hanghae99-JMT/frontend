@@ -52,9 +52,9 @@ const Detail = (props) => {
   // 좋아요 추가
   const addLike = () => {
     axios
-      .post(`https://54db-61-85-61-48.jp.ngrok.io/api/like`, restaurant, {
+      .post(`https://b864-59-24-129-68.jp.ngrok.io/api/like`, restaurant, {
         headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjRAbmF2ZXIuY29tIiwiZXhwIjozNTUwODk5NTc4fQ.8-tcRRoCjtRI9_RXSkhWJthwXJ_lngD46nNR-yIOJNE`,
+          Authorization: `${token}`,
         },
       })
       .then((res) => {
@@ -66,17 +66,17 @@ const Detail = (props) => {
       });
   };
 
-  useEffect(() => {
-    axios.get(`https://54db-61-85-61-48.jp.ngrok.io/api/like`,{
-        headers: {
-          Authorization: `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjRAbmF2ZXIuY29tIiwiZXhwIjozNTUwODk5NTc4fQ.8-tcRRoCjtRI9_RXSkhWJthwXJ_lngD46nNR-yIOJNE`,
-        },
-      }).then((res) => {
-        alert("get 성공")
-      }).catch((e) => {
-        alert("get 실패")
-      })
-  }, [])
+//   useEffect(() => {
+//     axios.get(`https://b864-59-24-129-68.jp.ngrok.io/api/like`,{
+//         headers: {
+//           Authorization: `${token}`,
+//         },
+//       }).then((res) => {
+//         alert("get 성공")
+//       }).catch((e) => {
+//         alert("get 실패")
+//       })
+//   }, [])
 
   return (
     <Dialog onClose={handleClose} open={open} fullScreen={fullScreen}>
