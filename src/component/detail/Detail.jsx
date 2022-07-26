@@ -19,6 +19,7 @@ import axios from "axios";
 import MapContainer from "./MapContainer";
 import { useTheme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import JMTapis from "../../shared/resquests";
 /* global kakao */
 
 const Detail = (props) => {
@@ -51,12 +52,7 @@ const Detail = (props) => {
   // TODO: 검색결과가 리덕스에 들어간다면 올라간 따봉을 디스패치 필요
   // 좋아요 추가
   const addLike = () => {
-    axios
-      .post(`https://b864-59-24-129-68.jp.ngrok.io/api/like`, restaurant, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
+    JMTapis.addLike(restaurant)
       .then((res) => {
         console.log(res.data.like);
         setRestaurant({ ...restaurant, like: res.data.like });

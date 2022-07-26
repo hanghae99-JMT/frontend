@@ -95,15 +95,11 @@ export const signUpThunk = createAsyncThunk(
   async ({ id, username, pw }, thunkAPI) => {
     // const navigate = useNavigate()
     let data = null;
-    await axios({
-      method: "post",
-      url: "https://b864-59-24-129-68.jp.ngrok.io/api/signup",
-      data: {
+    await JMTapis.signUp({
         id: id,
         username: username,
         pw: pw,
-      },
-    })
+      })
       .then((res) => {
         console.log(res.data.id);
         data = res.data;

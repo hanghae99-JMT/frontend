@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Card, TextField, Button, Typography } from "@mui/material";
 import { InheritHeightInputBox } from "../../Styles";
 import axios from "axios";
+import JMTapis from "../../shared/resquests";
 
 const Review = (props) => {
   const rid = props.rid.toString();
@@ -14,13 +15,8 @@ const Review = (props) => {
   const newReview = () => {
     console.log(reviewText.current.value);
     if (reviewText.current.value !== "") {
-      axios
-        .post(`https://b864-59-24-129-68.jp.ngrok.io/api/review`, {
-          rid,
-          text: reviewText.current.value,
-        }, {headers:{
-            Authorization: `${token}`,
-          }})
+        console.log(reviewText.current.value);
+      JMTapis.postReviews({rid, text: reviewText.current.value})
         .then((res) => {
           alert("등록 완료");
         })
@@ -35,11 +31,8 @@ const Review = (props) => {
 
   // 리뷰 목록 호출
   useEffect(() => {
-    console.log("triggered");
-    axios
-      .get(`https://b864-59-24-129-68.jp.ngrok.io/api/review`,{params: {rid}}, {headers:{
-        Authorization: `${token}`,
-      }})
+    console.log("triggered", rid);
+    JMTapis.getReviews(rid)
       .then((res) => {
         console.log(res.data);
         setReviews(res.data);

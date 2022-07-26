@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUpThunk, emailCheckThunk } from "./redux/userSlice";
 import { FormHelperText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import JMTapis from "./shared/resquests";
 const axios = require("axios");
 
 const SignUp = () => {
@@ -55,11 +56,7 @@ const SignUp = () => {
   const emailCheck = async () => {
     let valid = false;
     try {
-      await axios({
-        method: "get",
-        data: {},
-        url: `https://3b69-119-56-188-115.jp.ngrok.io/api/users/${input_email.current.value}`,
-      })
+      await JMTapis.emailCheck(input_email.current.value)
         .then((res) => {
           valid = true;
           setValidEmail(true);

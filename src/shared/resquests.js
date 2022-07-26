@@ -33,9 +33,9 @@ const JMTapis = {
     JMTinstance.get(
       `/search?keyword=${searchData.keyword}&x=${searchData.x}&y=${searchData.y}&page=${searchData.page}`
     ),
-  addLike: () => JMTinstance.post("/like"),
-  getReviews: (rid) => JMTinstance.get("/review", {params: {rid}}),
-  postReviews: (reviewData) => JMTinstance.get("/review", {reviewData}),
+  addLike: (restaurant) => JMTinstance.post("/like", restaurant),
+  getReviews: (rid) => JMTinstance.get(`/review?rid=${rid}`),
+  postReviews: (reviewData) => JMTinstance.post("/review", reviewData),
   myLikes: (id) => JMTinstance.get(`/user/${id}/likes`),
   myReviews: (id) => JMTinstance.get(`/user/${id}/review`)
 };
