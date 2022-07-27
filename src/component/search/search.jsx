@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./search.module.scss";
 import SearchItem from "./search_item";
-import { Container, Button, Pagination, PaginationItem } from "@mui/material";
+import {
+  Container,
+  Button,
+  Pagination,
+  PaginationItem,
+  Typography,
+} from "@mui/material";
 import {
   useLocation,
   useNavigate,
@@ -119,6 +125,11 @@ const Search = () => {
               handleClick={() => handleClickOpen(item)}
             />
           ))}
+        {searchData?.length == 0 && (
+          <Typography sx={{ color: "white", width: "100%", textAlign: "center", fontSize: "2rem" }}>
+            검색결과가 존재하지 않습니다.
+          </Typography>
+        )}
       </ul>
       <Pagination
         count={totalCount}

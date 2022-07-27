@@ -38,18 +38,22 @@ const Detail = (props) => {
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MjRfMzAg%2FMDAxNTk4MTk5Njk4MjUy.WmmGvgQ2iO9VuOuOknh_cxyzCveXvJRscCi_p3DdH4kg.1sKp3PhOujPe4pDVKjsOlerieKGUNJaIKQ5knIP6IB4g.JPEG.ps-flower%2Fps_%25B4%25EB%25C7%25A5%25BB%25E7%25C1%25F8%2528%25B8%25C0%25C1%25FD%2529_%25C1%25B6%25BC%25B1%25BF%25C1.jpg&type=sc960_832";
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate()
+  const [likeCount, setLikeCount] = useState()
+  const [liked, setLiked] = useState(0)
 
   useEffect(() => {
-    console.log(restaurantProp);
-    console.log(restaurant);
-  }, [restaurantProp, restaurant]);
+    setLikeCount(restaurantProp?.like)
+    setLiked(restaurantProp?.like_flag)
+  }, [restaurantProp]);
 
   // TODO: 검색결과가 리덕스에 들어간다면 올라간 따봉을 디스패치 필요
   // 좋아요 추가
-  const addLike = () => {
-    JMTapis.addLike(restaurantProp)
+  const addLike = async() => {
+    let new_like = likeCount
+    await JMTapis.addLike(restaurantProp)
       .then((res) => {
         console.log(res.data.like);
+        new_like = res.data.like
         setRestaurant({ ...restaurant, like: res.data.like });
       })
       .catch((e) => {
@@ -60,6 +64,10 @@ const Detail = (props) => {
     }
         
       });
+      if(new_like){
+        setLikeCount(new_like)
+        setLiked(1)
+    }
   };
 
   return (
@@ -190,12 +198,12 @@ const Detail = (props) => {
               }}
               onClick={addLike}
               variant="contained"
-              disabled={restaurantProp?.like_flag}
-              color={restaurantProp?.like_flag ? "primary" : "thirdary"}
+              disabled={liked}
+              color={liked ? "primary" : "thirdary"}
             >
               <Typography component="div">
                 <span style={{ fontSize: "2rem" }}>👍</span>
-                <p>{restaurantProp?.like}</p>
+                <p>{likeCount}</p>
               </Typography>
             </LikeButton>
           </Box>

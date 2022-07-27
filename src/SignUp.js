@@ -65,7 +65,6 @@ const SignUp = () => {
         })
         .catch((e) => {
           if (e.response) {
-            alert(e.message);
             valid = false;
             setValidEmail(false);
             setEmailCheckable(true)

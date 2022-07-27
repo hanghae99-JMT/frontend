@@ -3,6 +3,7 @@ import { Box, Card, TextField, Button, Typography } from "@mui/material";
 import { InheritHeightInputBox } from "../../Styles";
 import axios from "axios";
 import JMTapis from "../../shared/resquests";
+import { useSelector } from "react-redux";
 
 const Review = (props) => {
   const {rid, restaurant} = props;
@@ -10,18 +11,20 @@ const Review = (props) => {
   const reviewText = useRef("");
   const [trigger, setTrigger] = useState({data:"data"})
   const token = sessionStorage.getItem("token")
+  const user = useSelector(state => state.user.user)
   useEffect(() => {
 
   }, [rid])
 
   // 리뷰 등록
   const newReview = () => {
-    console.log(reviewText.current.value);
-    if (reviewText.current.value !== "") {
-        console.log(reviewText.current.value);
-      JMTapis.postReviews({...restaurant, rid, text: reviewText.current.value})
+    const reviewTextInput = reviewText.current.value
+    if (reviewTextInput !== "") {
+        console.log(reviewTextInput);
+      JMTapis.postReviews({...restaurant, rid, text: reviewTextInput})
         .then((res) => {
           alert("등록 완료");
+          setReviews([...reviews, {id: user?.id, text: reviewTextInput}])
         })
         .catch((e) => {
           alert("문제가 발생했습니다." + e.data?.message);
@@ -42,7 +45,7 @@ const Review = (props) => {
       })
       .catch((e) => {
         console.log(e);
-        alert(e.data?.message)})
+      })
   }, [trigger]);
 
   return (
