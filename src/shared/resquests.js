@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const JMTinstance = axios.create({
-  baseURL: "https://1c2b-59-24-129-68.jp.ngrok.io/api",
+  baseURL: `${process.env.REACT_APP_JMT_SERVER_API}/api`,
 });
 
 axios.defaults.headers.common[`Authorization`] = 'value'

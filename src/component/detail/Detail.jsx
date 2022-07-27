@@ -23,66 +23,52 @@ import JMTapis from "../../shared/resquests";
 /* global kakao */
 
 const Detail = (props) => {
-  const { onClose, open } = props;
+  const { onClose, open, restaurantProp } = props;
   const handleClose = () => {
+    console.log("**");
     onClose();
   };
-  const [restaurant, setRestaurant] = useState();
+  const [restaurant, setRestaurant] = useState(restaurantProp);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-  console.log(fullScreen);
+  //   console.log(fullScreen);
   const galbi =
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MjRfMzAg%2FMDAxNTk4MTk5Njk4MjUy.WmmGvgQ2iO9VuOuOknh_cxyzCveXvJRscCi_p3DdH4kg.1sKp3PhOujPe4pDVKjsOlerieKGUNJaIKQ5knIP6IB4g.JPEG.ps-flower%2Fps_%25B4%25EB%25C7%25A5%25BB%25E7%25C1%25F8%2528%25B8%25C0%25C1%25FD%2529_%25C1%25B6%25BC%25B1%25BF%25C1.jpg&type=sc960_832";
   const token = sessionStorage.getItem("token");
 
   useEffect(() => {
-    setRestaurant({
-      rid: "1",
-      name: "조선옥",
-      category: "한식&gt;육류,고기요리".replace(/&gt;/g, ">"),
-      address: "서울특별시 중구 을지로15길 6-5",
-      phone: "010-0000-0000",
-      like: 12,
-      x: "37.5668121",
-      y: "126.9934565",
-      url: "https://www.naver.com",
-    });
-  }, []);
+    console.log(restaurantProp);
+    console.log(restaurant);
+  }, [restaurantProp, restaurant]);
 
   // TODO: 검색결과가 리덕스에 들어간다면 올라간 따봉을 디스패치 필요
   // 좋아요 추가
   const addLike = () => {
-    JMTapis.addLike(restaurant)
+    JMTapis.addLike(restaurantProp)
       .then((res) => {
         console.log(res.data.like);
         setRestaurant({ ...restaurant, like: res.data.like });
       })
       .catch((e) => {
-        alert("이미 좋아요한 가게입니다")
+        alert("이미 좋아요한 가게입니다");
       });
   };
 
-//   useEffect(() => {
-//     axios.get(`https://b864-59-24-129-68.jp.ngrok.io/api/like`,{
-//         headers: {
-//           Authorization: `${token}`,
-//         },
-//       }).then((res) => {
-//         alert("get 성공")
-//       }).catch((e) => {
-//         alert("get 실패")
-//       })
-//   }, [])
-
   return (
-    <Dialog onClose={handleClose} open={open} fullScreen={fullScreen}>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      fullScreen={fullScreen}
+      key={restaurantProp?.rid}
+      maxWidth="xl"
+    >
       <DialogTitle
         sx={{ height: 0, p: 0, justifyContent: "flex-end", display: "flex" }}
       >
         {onClose ? (
           <Button
             aria-label="close"
-            onClick={onClose}
+            onClick={handleClose}
             variant="contained"
             color="thirdary"
             sx={{
@@ -104,7 +90,7 @@ const Detail = (props) => {
       <DialogContent style={{ padding: 0 }}>
         <Container sx={{ my: 2 }}>
           <Card>
-            <MapContainer x={restaurant?.x} y={restaurant?.y} />
+            <MapContainer x={restaurantProp?.x} y={restaurantProp?.y} />
           </Card>
           <Box sx={{ my: 5 }}>
             <div
@@ -117,13 +103,13 @@ const Detail = (props) => {
               }}
             >
               <Typography variant="h3" sx={{ width: "fit-content " }}>
-                {restaurant?.name}
+                {restaurantProp?.name}
               </Typography>
               <Typography
                 variant="h5"
                 sx={{ ml: 1, color: "#555", whiteSpace: "pre" }}
               >
-                {restaurant?.category}
+                {restaurantProp?.category}
               </Typography>
             </div>
             <div
@@ -143,12 +129,12 @@ const Detail = (props) => {
                 }}
                 color="primary"
               >
-                {restaurant?.address}
+                {restaurantProp?.address}
               </Typography>
               <Button
                 component="a"
                 variant="contained"
-                href={`tel:${restaurant?.phone}`}
+                href={`tel:${restaurantProp?.phone}`}
                 sx={{
                   padding: ".5em 1em",
                   boxShadow: "0 2px 10px #eee",
@@ -159,13 +145,13 @@ const Detail = (props) => {
                 }}
               >
                 <CallIcon />
-                {restaurant?.phone}
+                {restaurantProp?.phone}
               </Button>
               <Button
                 component="a"
                 variant="contained"
                 color="secondary"
-                href={restaurant?.url}
+                href={restaurantProp?.url}
                 sx={{
                   padding: ".5em .5em",
                   boxShadow: "0 2px 10px #eee",
@@ -199,11 +185,11 @@ const Detail = (props) => {
             >
               <Typography component="div">
                 <span style={{ fontSize: "2rem" }}>👍</span>
-                <p>{restaurant?.like}</p>
+                <p>{restaurantProp?.like}</p>
               </Typography>
             </Button>
           </Box>
-          <Review rid={restaurant?.rid}/>
+          <Review rid={restaurantProp?.rid} />
         </Container>
       </DialogContent>
     </Dialog>

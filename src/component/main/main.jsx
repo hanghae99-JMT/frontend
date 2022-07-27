@@ -6,15 +6,20 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import JMTapis from '../../shared/resquests';
+import Detail from '../detail/Detail';
 
 const Main = () => {
     const [ranking, setRanking] = useState([]);
     const input_ref = useRef();
     let lat, lng;
+    const [openDetail, setOpenDetail] = useState(false)
+    const handleClose = (value) => {
+        setOpenDetail(false);
+    };
     const navigate = useNavigate();
-    useEffect(() => {
-        JMTapis.getRanking().then(response => setRanking(response.data));
-    }, []);
+    const [currentRestaurant, setCurrentRestaurant] = useState({})
+    
+
     const onGeoOkay = (position) => {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
@@ -30,6 +35,20 @@ const Main = () => {
         let y = lng
         { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`); }
     }
+    const handleClickOpen = (item) => {
+        console.log(item);
+        setCurrentRestaurant(item)
+        setOpenDetail(true)
+    }
+
+
+    useEffect(() => {
+        JMTapis.getRanking().then(response => setRanking(response.data));
+    }, []);
+
+    useEffect(() => {
+        console.log(currentRestaurant);
+    }, [{...currentRestaurant}])
     return (
         <Container
             maxWidth='xl'
@@ -46,8 +65,9 @@ const Main = () => {
                 >검색</Button>
             </form>
             <ul>
-                {ranking && ranking.map((item, index) => <Ranking key={item.rid} data={item} />)}
+                {ranking && ranking.map((item, index) => <Ranking key={item.rid} data={item} handleClick={() => handleClickOpen(item)}/>)}
             </ul>
+            <Detail open={openDetail} onClose={handleClose} restaurantProp={currentRestaurant}/>
         </Container >
     );
 };

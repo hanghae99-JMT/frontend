@@ -5,11 +5,14 @@ import axios from "axios";
 import JMTapis from "../../shared/resquests";
 
 const Review = (props) => {
-  const rid = props.rid.toString();
+  const {rid} = props;
   const [reviews, setReviews] = useState([]);
   const reviewText = useRef("");
   const [trigger, setTrigger] = useState({data:"data"})
   const token = sessionStorage.getItem("token")
+  useEffect(() => {
+
+  }, [rid])
 
   // 리뷰 등록
   const newReview = () => {
@@ -76,14 +79,14 @@ const Review = (props) => {
           후기 등록
         </Button>
       </Card>
-      {reviews.map((x, i) => {
+      {reviews?.map((x, i) => {
         return (
           <Box sx={{ borderBottom: "1px solid #eee", py: 3 }} key={i}>
             <Typography color="primary" variant="h6">
-              {x.id}
+              {x?.id}
             </Typography>
             <Typography sx={{ whiteSpace: "pre" }} variant="body1">
-              {x.text}
+              {x?.text}
             </Typography>
           </Box>
         );

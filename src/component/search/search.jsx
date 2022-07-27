@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import JMTapis from "../../shared/resquests";
+import Detail from "../detail/Detail";
 
 const Search = () => {
   const input_ref = useRef();
@@ -21,6 +22,16 @@ const Search = () => {
   // let lat, lng;
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
+  const [openDetail, setOpenDetail] = useState(false);
+  const [currentRestaurant, setCurrentRestaurant] = useState({});
+  const handleClose = (value) => {
+    setOpenDetail(false);
+  };
+  const handleClickOpen = (item) => {
+    console.log(item);
+    setCurrentRestaurant(item);
+    setOpenDetail(true);
+  };
 
   // 위치 받아오기
   const onGeoOkay = (position) => {
@@ -52,7 +63,7 @@ const Search = () => {
     const y = lat + "";
     const x = lng + "";
     if (lat) {
-        console.log(pageNumber);
+      console.log(pageNumber);
       JMTapis.searchRestaurant({
         keyword: searchParams.get("keyword"),
         y: y,
@@ -100,7 +111,14 @@ const Search = () => {
         </Button>
       </form>
       <ul>
-        {searchData && searchData.map((item) => <SearchItem key={item.rid} data={item} />)}
+        {searchData &&
+          searchData.map((item) => (
+            <SearchItem
+              key={item.rid}
+              data={item}
+              handleClick={() => handleClickOpen(item)}
+            />
+          ))}
       </ul>
       <Pagination
         count={totalCount}
@@ -112,6 +130,11 @@ const Search = () => {
         renderItem={(item) => (
           <PaginationItem {...item} sx={{ color: "#fff" }} />
         )}
+      />
+      <Detail
+        open={openDetail}
+        onClose={handleClose}
+        restaurantProp={currentRestaurant}
       />
     </Container>
   );
