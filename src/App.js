@@ -17,6 +17,7 @@ import userSlice, { loginCheckThunk, logoutUser } from "./redux/userSlice";
 import Main from "./component/main/main";
 import MyPage from "./component/mypage/mypage";
 import Search from "./component/search/search";
+import JMTapis from "./shared/resquests";
 const axios = require("axios");
 
 function App() {
@@ -30,44 +31,10 @@ function App() {
     setOpenDetail(false);
   };
 
-  // 로그인 체크
-  const loginCheck = async (token) => {
-    let valid = false;
-    await axios({
-      method: "get",
-      data: {},
-      url: "https://b864-59-24-129-68.jp.ngrok.io/api/user/token",
-      headers: {
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => {
-        valid = true;
-        // alert("확인완료");
-      })
-      .catch((e) => {
-        valid = false;
-        // alert("유효하지 않음");
-      });
-    return valid;
-  };
-
   console.log(sessionStorage.getItem("token"));
   useEffect(() => {
-    // loginCheck(sessionStorage.getItem("token"))
-    console.log(sessionStorage.getItem("token"));
-    //쿠키에 저장된 액세스 토큰이 존재할 때만 서버에 검증 요청
-    if (sessionStorage.getItem("token")) {
-      // 토큰이 유효하지 않으면
-      if (!loginCheck(sessionStorage.getItem("token"))) {
-        // 토큰 삭제
-        // dispatch(logoutUser());
-        setIsLogin(false);
-      } else {
-        setIsLogin(true);
-      }
-    }
-  }, [user, location]);
+    dispatch(loginCheckThunk())
+  }, [location]);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

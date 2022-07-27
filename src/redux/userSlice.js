@@ -10,7 +10,7 @@ export const loginThunk = createAsyncThunk(
     let data = null;
     let tmp = null;
     let flag = false;
-    let fetchedData = null
+    let fetchedData = null;
     await JMTapis.loginUser(userData)
       .then((res) => {
         console.log(userData);
@@ -19,7 +19,7 @@ export const loginThunk = createAsyncThunk(
         flag = true;
         data = res.data;
         tmp = res;
-        console.log(data)
+        console.log(data);
       })
       .catch((e) => {
         alert(e.response.data.message);
@@ -45,26 +45,28 @@ export const loginThunk = createAsyncThunk(
 
 export const loginCheckThunk = createAsyncThunk(
   "user/check",
-  async (token, thunkAPI) => {
-    console.log(token);
-    await axios({
-      method: "get",
-      data: {},
-      url: "https://b864-59-24-129-68.jp.ngrok.io/api/user/token",
-      headers: {
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.data.code !== 200) {
-          throw "200이 아님";
-          thunkAPI.rejectWithValue(res);
-        }
-      })
-      .catch((e) => {
-        thunkAPI.rejectWithValue(e);
-      });
+  async (data, thunkAPI) => {
+    const asyncSessionStorage = async() => {
+        return sessionStorage.getItem("token")
+    }
+
+    const token = await asyncSessionStorage()
+    if (token) {
+        await axios
+          .get(`${process.env.REACT_APP_JMT_SERVER_API}/api/user/token`, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          })
+          .then((res) => {
+            // 토큰이 유효한 경우
+            thunkAPI.dispatch(fetchUser(res.data));
+          })
+          .catch((e) => {
+            // 토큰이 유효하지 않은 경우
+            thunkAPI.dispatch(logoutUser());
+          });
+    }
   }
 );
 
@@ -96,10 +98,10 @@ export const signUpThunk = createAsyncThunk(
     // const navigate = useNavigate()
     let data = null;
     await JMTapis.signUp({
-        id: id,
-        username: username,
-        pw: pw,
-      })
+      id: id,
+      username: username,
+      pw: pw,
+    })
       .then((res) => {
         console.log(res.data.id);
         data = res.data;
@@ -126,14 +128,20 @@ export const signUpThunk = createAsyncThunk(
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { user: { id: "u", username: "123" } },
+  initialState: { user: { id: "로그인 정보가 없습니다", username: "" } },
   reducers: {
     logoutUser(state, action) {
       sessionStorage.removeItem("token");
-      state.user = { user: { id: "", username: "" } };
+      state.user = { id: "로그인 정보가 없습니다", username: "" };
       // alert("로그아웃")
       window.location.reload();
     },
+    fetchUser(state, action) {
+        console.log("여기에서 페치!!", action.payload.id);
+        console.log(action.payload);
+        console.log(state);
+        state.user = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(loginThunk.fulfilled, (state, action) => {
@@ -157,4 +165,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser, fetchUser } = userSlice.actions;
