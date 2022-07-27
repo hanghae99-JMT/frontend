@@ -5,7 +5,7 @@ import axios from "axios";
 import JMTapis from "../../shared/resquests";
 
 const Review = (props) => {
-  const {rid} = props;
+  const {rid, restaurant} = props;
   const [reviews, setReviews] = useState([]);
   const reviewText = useRef("");
   const [trigger, setTrigger] = useState({data:"data"})
@@ -19,7 +19,7 @@ const Review = (props) => {
     console.log(reviewText.current.value);
     if (reviewText.current.value !== "") {
         console.log(reviewText.current.value);
-      JMTapis.postReviews({rid, text: reviewText.current.value})
+      JMTapis.postReviews({...restaurant, rid, text: reviewText.current.value})
         .then((res) => {
           alert("등록 완료");
         })
