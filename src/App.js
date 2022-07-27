@@ -24,16 +24,15 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const [isLogin, setIsLogin] = useState(false);
-  const [openDetail, setOpenDetail] = useState(false)
+  const isLogin = useSelector((state) => state.user.isLogin);
+  const [openDetail, setOpenDetail] = useState(false);
   const handleClose = (value) => {
     setOpenDetail(false);
   };
 
   console.log(sessionStorage.getItem("token"));
   useEffect(() => {
-    dispatch(loginCheckThunk())
+    dispatch(loginCheckThunk());
   }, [location]);
   return (
     <div className="App">
@@ -53,33 +52,37 @@ function App() {
                   variant="text"
                   aria-label="outlined primary button group"
                 >
-                  {/* {!isLogin && ( */}
-                  <Button onClick={() => navigate("/sign_up")}>회원가입</Button>
-                  <Button
-                    onClick={() => {
-                      dispatch(logoutUser());
-                    }}
-                  >
-                    로그아웃
-                  </Button>
-                  {/* )} */}
-                  {/* {!isLogin && ( */}
-                  <Button onClick={() => navigate("/sign_in")}>로그인</Button>
-                  {/* 편의용으로 임시로 버튼 추가 */}
-                  <Button onClick={() => navigate("/mypage")}>
-                    마이페이지
-                  </Button>
-                  <Button onClick={() => setOpenDetail(true)}>가게상세</Button>
-                  {/* )} */}
-                  {/* {isLogin && <Button onClick={logout}>로그아웃</Button>}
-                  {isLogin && <Button onClick={addpost}>글쓰기</Button>} */}
+                  {!isLogin && (
+                    <>
+                      <Button onClick={() => navigate("/sign_up")}>
+                        회원가입
+                      </Button>
+                      <Button onClick={() => navigate("/sign_in")}>
+                        로그인
+                      </Button>
+                    </>
+                  )}
+
+                  {isLogin && (
+                    <>
+                      <Button
+                        onClick={() => {
+                          dispatch(logoutUser());
+                        }}
+                      >
+                        로그아웃
+                      </Button>
+                      <Button onClick={() => navigate("/mypage")}>
+                        마이페이지
+                      </Button>
+                    </>
+                  )}
                 </ButtonGroup>
               )}
             </Toolbar>
           </Header>
         )}
-        {isLogin.toString()}
-        <Detail open={openDetail} onClose={handleClose}/>
+        <Detail open={openDetail} onClose={handleClose} />
         <Routes>
           <Route path="/sign_in" element={<SignIn />} />
           <Route path="/sign_up" element={<SignUp />} />
