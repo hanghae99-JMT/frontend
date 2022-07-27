@@ -20,6 +20,8 @@ import MapContainer from "./MapContainer";
 import { useTheme } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import JMTapis from "../../shared/resquests";
+import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 /* global kakao */
 
 const Detail = (props) => {
@@ -35,6 +37,7 @@ const Detail = (props) => {
   const galbi =
     "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMDA4MjRfMzAg%2FMDAxNTk4MTk5Njk4MjUy.WmmGvgQ2iO9VuOuOknh_cxyzCveXvJRscCi_p3DdH4kg.1sKp3PhOujPe4pDVKjsOlerieKGUNJaIKQ5knIP6IB4g.JPEG.ps-flower%2Fps_%25B4%25EB%25C7%25A5%25BB%25E7%25C1%25F8%2528%25B8%25C0%25C1%25FD%2529_%25C1%25B6%25BC%25B1%25BF%25C1.jpg&type=sc960_832";
   const token = sessionStorage.getItem("token");
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log(restaurantProp);
@@ -50,7 +53,12 @@ const Detail = (props) => {
         setRestaurant({ ...restaurant, like: res.data.like });
       })
       .catch((e) => {
-        alert("이미 좋아요한 가게입니다");
+        console.log(e);
+        if(e.response.status == 401) {alert("좋아요를 남기려면 로그인이 필요합니다.")
+    navigate("/sign_in")}else{
+        alert("문제가 발생했습니다." + e.data?.message)
+    }
+        
       });
   };
 
@@ -173,7 +181,7 @@ const Detail = (props) => {
               alignItems: "center",
             }}
           >
-            <Button
+            <LikeButton
               sx={{
                 padding: ".5em 1em",
                 boxShadow: "0 2px 10px #eee",
@@ -182,18 +190,34 @@ const Detail = (props) => {
               }}
               onClick={addLike}
               variant="contained"
+              disabled={restaurantProp?.like_flag}
+              color={restaurantProp?.like_flag ? "primary" : "thirdary"}
             >
               <Typography component="div">
                 <span style={{ fontSize: "2rem" }}>👍</span>
                 <p>{restaurantProp?.like}</p>
               </Typography>
-            </Button>
+            </LikeButton>
           </Box>
-          <Review rid={restaurantProp?.rid} />
+          <Review rid={restaurantProp?.rid} restaurant={restaurantProp}/>
         </Container>
       </DialogContent>
     </Dialog>
   );
 };
+
+const LikeButton = styled(Button)(({ theme }) => ({
+    '&:disabled':{
+        color: "white",
+        backgroundColor: theme.palette.primary.main,
+        padding: ".5em 1em",
+                boxShadow: "0 2px 10px #eee",
+                borderRadius: "20rem",
+                width: "fit-content",
+    },
+    button:{
+        
+    }
+  }));
 
 export default Detail;
