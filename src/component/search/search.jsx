@@ -11,6 +11,8 @@ import {
 import axios from "axios";
 import JMTapis from "../../shared/resquests";
 import Detail from "../detail/Detail";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../redux/userSlice";
 
 
 const Search = () => {
@@ -25,6 +27,8 @@ const Search = () => {
     const [openDetail, setOpenDetail] = useState(false);
     const [currentRestaurant, setCurrentRestaurant] = useState({});
     const [progress, setProgress] = useState(false);
+    const dispatch = useDispatch()
+    
     const handleClose = (value) => {
         setOpenDetail(false);
     };
@@ -36,8 +40,6 @@ const Search = () => {
 
     // 위치 받아오기
     const onGeoOkay = (position) => {
-        // lat = position.coords.latitude;
-        // lng = position.coords.longitude;
         console.log(position.coords.latitude, position.coords.longitude);
         setLat(position.coords.latitude);
         setLng(position.coords.longitude);
@@ -60,6 +62,7 @@ const Search = () => {
         }
     };
     useEffect(() => {
+        dispatch(setLoading(true))
         navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
         const y = lat + "";
         const x = lng + "";
@@ -72,7 +75,7 @@ const Search = () => {
                 page: pageNumber,
             }).then((response) => {
                 setSearchData(response.data.searchResult);
-
+                dispatch(setLoading(false))
                 // 전체 페이지 수 구하기
                 setTotalCount(Math.min(Math.ceil(response.data.totalCount / 15), 3));
             });

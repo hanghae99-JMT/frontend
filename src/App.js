@@ -7,6 +7,7 @@ import {
   ButtonGroup,
   Toolbar,
   Box,
+  CircularProgress
 } from "@mui/material";
 import { theme, Logo, Header } from "./Styles.js";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
@@ -25,6 +26,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const isLogin = useSelector((state) => state.user.isLogin);
+  const isLoading = useSelector((state) => state.user.isLoading)
   const [openDetail, setOpenDetail] = useState(false);
   const handleClose = (value) => {
     setOpenDetail(false);
@@ -37,6 +39,9 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
+        {isLoading && <div className="progress">
+          <CircularProgress color="primary" size={150} />
+        </div>}
         {!(
           location.pathname.startsWith("/sign_in") ||
           location.pathname.startsWith("/sign_up")

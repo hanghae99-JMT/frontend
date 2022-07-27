@@ -128,7 +128,7 @@ export const signUpThunk = createAsyncThunk(
 
 const userSlice = createSlice({
   name: "user",
-  initialState: { user: { id: "로그인 정보가 없습니다", username: "" }, isLogin: false },
+  initialState: { user: { id: "로그인 정보가 없습니다", username: "" }, isLogin: false, isLoading: false },
   reducers: {
     logoutUser(state, action) {
       sessionStorage.removeItem("token");
@@ -143,6 +143,9 @@ const userSlice = createSlice({
         console.log(state);
         state.user = action.payload
         state.isLogin = true
+    },
+    setLoading(state, action) {
+        state.isLoading = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -169,4 +172,4 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { logoutUser, fetchUser } = userSlice.actions;
+export const { logoutUser, fetchUser, setLoading } = userSlice.actions;

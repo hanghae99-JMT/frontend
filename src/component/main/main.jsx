@@ -2,11 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './main.module.scss';
 import Ranking from './ranking';
 import { Button, Container } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import JMTapis from '../../shared/resquests';
 import Detail from '../detail/Detail';
+import { setLoading } from '../../redux/userSlice';
 
 const Main = () => {
     const [ranking, setRanking] = useState([]);
@@ -18,6 +19,7 @@ const Main = () => {
     };
     const navigate = useNavigate();
     const [currentRestaurant, setCurrentRestaurant] = useState({})
+    const dispatch = useDispatch()
     
 
     const onGeoOkay = (position) => {
@@ -43,7 +45,11 @@ const Main = () => {
 
 
     useEffect(() => {
-        JMTapis.getRanking().then(response => setRanking(response.data));
+        dispatch(setLoading(true))
+        JMTapis.getRanking().then(response => {
+            setRanking(response.data)
+            dispatch(setLoading(false))
+        });
     }, []);
 
     useEffect(() => {
