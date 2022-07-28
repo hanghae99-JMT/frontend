@@ -4,31 +4,37 @@ import { InheritHeightInputBox } from "../../Styles";
 import axios from "axios";
 import JMTapis from "../../shared/resquests";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Review = (props) => {
-  const {rid, restaurant} = props;
+  const { rid, restaurant } = props;
   const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate()
   const reviewText = useRef("");
-  const [trigger, setTrigger] = useState({data:"data"})
-  const token = sessionStorage.getItem("token")
-  const user = useSelector(state => state.user.user)
-  useEffect(() => {
-
-  }, [rid])
+  const [trigger, setTrigger] = useState({ data: "data" });
+  const token = sessionStorage.getItem("token");
+  const user = useSelector((state) => state.user.user);
+  useEffect(() => {}, [rid]);
 
   // 리뷰 등록
   const newReview = () => {
-    const reviewTextInput = reviewText.current.value
+    const reviewTextInput = reviewText.current.value;
     if (reviewTextInput !== "") {
-        console.log(reviewTextInput);
-      JMTapis.postReviews({...restaurant, rid, text: reviewTextInput})
+      console.log(reviewTextInput);
+      JMTapis.postReviews({ ...restaurant, rid, text: reviewTextInput })
         .then((res) => {
           alert("등록 완료");
-          setReviews([...reviews, {id: user?.id, text: reviewTextInput}])
+          setReviews([...reviews, { id: user?.id, text: reviewTextInput }]);
+          reviewText.current.value = ""
         })
         .catch((e) => {
-          alert("문제가 발생했습니다." + e.data?.message);
-          setTrigger(e.data)
+          if (e.response.status == 401 || e.response.status == 400) {
+            alert("후기를 남기려면 로그인이 필요합니다.");
+            navigate("/sign_in");
+          } else {
+            alert("문제가 발생했습니다." + e.data?.message);
+            setTrigger(e.data);
+          }
         });
     } else {
       alert("최소 1자 이상 입력해주세요.");
@@ -45,7 +51,7 @@ const Review = (props) => {
       })
       .catch((e) => {
         console.log(e);
-      })
+      });
   }, [trigger]);
 
   return (
