@@ -55,10 +55,11 @@ const Search = () => {
         let keyword = input_ref.current.value;
         let x = lat;
         let y = lng;
-        {
-            keyword == ""
-                ? alert("검색어를 입력해주세요")
-                : navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`);
+        if(keyword == ""){
+                alert("검색어를 입력해주세요")
+        }else {
+            setPageNumber(1)
+            navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`)
         }
     };
     useEffect(() => {
@@ -85,7 +86,7 @@ const Search = () => {
     console.log(searchData);
 
     useEffect(() => {
-    }, [searchData])
+    }, [searchData, searchParams, totalCount])
 
     const pageChange = (e) => {
         setPageNumber(e.target.textContent);
