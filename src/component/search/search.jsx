@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./search.module.scss";
 import SearchItem from "./search_item";
-import { Container, Button, Pagination, PaginationItem, CircularProgress } from "@mui/material";
+import { Container, Button, Pagination, PaginationItem, CircularProgress, Typography } from "@mui/material";
 import {
     useLocation,
     useNavigate,
@@ -59,8 +59,9 @@ const Search = () => {
                 alert("검색어를 입력해주세요")
         }else {
             setPageNumber(1)
-            navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`)
-        }
+            navigate(`/search?keyword=${keyword}`)
+            window.location.reload()
+    }
     };
     useEffect(() => {
         dispatch(setLoading(true))
@@ -95,7 +96,7 @@ const Search = () => {
         navigate(
             `/search?keyword=${searchParams.get(
                 "keyword"
-            )}&x=${x}&y=${y}&page=${pageNumber}`
+            )}`
         );
     };
     return (
@@ -128,6 +129,7 @@ const Search = () => {
                                     handleClick={() => handleClickOpen(item)}
                                 />
                             ))}
+                        {searchData.length == 0 && <Typography sx={{width: "100%", textAlign: "center", color: "white", fontSize: "2rem", mb: 3}}>검색결과가 존재하지 않습니다.</Typography>}
                     </ul>
                     <Pagination
                         count={totalCount}
