@@ -14,7 +14,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Detail from "./component/detail/Detail";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import userSlice, { loginCheckThunk, logoutUser } from "./redux/userSlice";
+import userSlice, { loginCheckThunk, logoutUser, setLoading } from "./redux/userSlice";
 import Main from "./component/main/main";
 import MyPage from "./component/mypage/mypage";
 import Search from "./component/search/search";
@@ -35,7 +35,9 @@ function App() {
   console.log(sessionStorage.getItem("token"));
   useEffect(() => {
     dispatch(loginCheckThunk());
+    dispatch(setLoading(false))
   }, [location]);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
