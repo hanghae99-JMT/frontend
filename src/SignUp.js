@@ -21,7 +21,7 @@ const SignUp = () => {
   const emailRegExp =
     /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
   const pwRegExp =
-    /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+])[A-Za-z\d@$!%*+?&0-9]{8,16}$/;
+    /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*+])[A-Za-z@#$!%\^*&]{8,16}$/;
   const [validEmail, setValidEmail] = useState(false);
   const [emailcheckable, setEmailCheckable] = useState(true);
   const navigate = useNavigate()
