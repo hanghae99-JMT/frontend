@@ -15,6 +15,7 @@ import {
 import Review from "./Review";
 import CallIcon from "@mui/icons-material/Call";
 import LanguageIcon from "@mui/icons-material/Language";
+import NavigationIcon from '@mui/icons-material/Navigation';
 import axios from "axios";
 import MapContainer from "./MapContainer";
 import { useTheme } from "@mui/material";
@@ -147,7 +148,20 @@ const Detail = (props) => {
               >
                 {restaurantProp?.address}
               </Typography>
-              <Button
+              {restaurantProp?.distance && <Typography
+                sx={{
+                  padding: ".5em 1em",
+                  boxShadow: "0 2px 10px #eee",
+                  borderRadius: "2em",
+                  width: "fit-content",
+                  color: "#6398DF",
+                  my: 1,
+                }}
+              >
+                <NavigationIcon sx={{marginBottom: "-.5rem"}}/>
+                {(restaurantProp?.distance / 1000) + " km"}
+              </Typography>}
+              {restaurantProp?.phone && <Button
                 component="a"
                 variant="contained"
                 href={`tel:${restaurantProp?.phone}`}
@@ -163,6 +177,7 @@ const Detail = (props) => {
                 <CallIcon />
                 {restaurantProp?.phone}
               </Button>
+              }
               <Button
                 component="a"
                 variant="contained"
@@ -179,6 +194,7 @@ const Detail = (props) => {
               >
                 <LanguageIcon />
               </Button>
+              
             </div>
           </Box>
           <Box
