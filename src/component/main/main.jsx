@@ -12,7 +12,6 @@ import { setLoading } from '../../redux/userSlice';
 const Main = () => {
     const [ranking, setRanking] = useState([]);
     const input_ref = useRef();
-    let lat, lng;
     const [openDetail, setOpenDetail] = useState(false)
     const handleClose = (value) => {
         setOpenDetail(false);
@@ -21,21 +20,10 @@ const Main = () => {
     const [currentRestaurant, setCurrentRestaurant] = useState({})
     const dispatch = useDispatch()
     
-
-    const onGeoOkay = (position) => {
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-    }
-    const onGeoError = () => {
-        alert("I can't find you. No weather for you.");
-    }
-    navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
     const search = (e) => {
         e.preventDefault();
         let keyword = input_ref.current.value;
-        let x = lat
-        let y = lng
-        { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search?keyword=${keyword}&x=${x}&y=${y}&page=1`); }
+        { keyword == '' ? alert('검색어를 입력해주세요') : navigate(`/search?keyword=${keyword}`); }
     }
     const handleClickOpen = (item) => {
         console.log(item);
