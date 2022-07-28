@@ -14,7 +14,6 @@ import Detail from "../detail/Detail";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../redux/userSlice";
 
-
 const Search = () => {
     const input_ref = useRef();
     const navigate = useNavigate();
@@ -28,7 +27,7 @@ const Search = () => {
     const [currentRestaurant, setCurrentRestaurant] = useState({});
     const [progress, setProgress] = useState(false);
     const dispatch = useDispatch()
-    
+
     const handleClose = (value) => {
         setOpenDetail(false);
     };
@@ -40,12 +39,11 @@ const Search = () => {
 
     // 위치 받아오기
     const onGeoOkay = (position) => {
-        console.log(position.coords.latitude, position.coords.longitude);
         setLat(position.coords.latitude);
         setLng(position.coords.longitude);
     };
     const onGeoError = () => {
-        alert("I can't find you. No weather for you.");
+        alert("위치를 찾을수 없습니다.");
     };
     navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
 
@@ -55,13 +53,21 @@ const Search = () => {
         let keyword = input_ref.current.value;
         let x = lat;
         let y = lng;
-        if(keyword == ""){
-                alert("검색어를 입력해주세요")
-        }else {
+        if (keyword == "") {
+            alert("검색어를 입력해주세요")
+        } else {
             setPageNumber(1)
             navigate(`/search?keyword=${keyword}`)
             window.location.reload()
-    }
+        }
+    };
+    const searchEnter = (e) => {
+        e.preventDefault();
+        let keyword = e.target.value;
+        setPageNumber(1)
+        navigate(`/search?keyword=${keyword}`)
+        window.location.reload()
+
     };
     useEffect(() => {
         dispatch(setLoading(true))
@@ -69,7 +75,6 @@ const Search = () => {
         const y = lat + "";
         const x = lng + "";
         if (lat) {
-            console.log(pageNumber);
             JMTapis.searchRestaurant({
                 keyword: searchParams.get("keyword"),
                 y: y,
@@ -79,20 +84,25 @@ const Search = () => {
                 setSearchData(response.data.searchResult);
                 dispatch(setLoading(false))
                 // 전체 페이지 수 구하기
-                setTotalCount(Math.min(Math.ceil(response.data.totalCount / 15), 3));
+                setTotalCount(Math.min(Math.ceil(response.data.totalCount / 5), 9));
             });
         }
         setProgress(true);
-    }, [lat, lng, pageNumber]);
-    console.log(searchData);
+    }, [lat, lng, pageNumber, searchParams]);
 
     useEffect(() => {
     }, [searchData, searchParams, totalCount])
 
     const pageChange = (e) => {
         setPageNumber(e.target.textContent);
-        let x = lat;
-        let y = lng;
+        const pageNation = e.target.getAttribute("data-testid");
+
+        if (pageNation == "NavigateNextIcon") {
+            setPageNumber(String((Number(pageNumber) + 1)));
+        }
+        if (pageNation == "NavigateBeforeIcon") {
+            setPageNumber(String((Number(pageNumber) - 1)));
+        }
         navigate(
             `/search?keyword=${searchParams.get(
                 "keyword"
@@ -105,48 +115,51 @@ const Search = () => {
             style={{ minWidth: "100%" }}
             className={styles.search}
         >
-                    <form action="" placeholder="">
-                        <input
-                            type="text"
-                            placeholder="검색어를 입력 해주세요"
-                            ref={input_ref}
+            <form action="" placeholder="">
+                <input
+                    type="text"
+                    placeholder="검색어를 입력 해주세요"
+                    ref={input_ref}
+                    onKeyPress={searchEnter}
+                />
+                <Button
+                    className={styles.button}
+                    variant="contained"
+                    color="secondary"
+                    onClick={search}
+                >
+                    검색
+                </Button>
+            </form>
+            <ul>
+                {searchData &&
+                    searchData.map((item) => (
+                        <SearchItem
+                            key={item.rid}
+                            data={item}
+                            handleClick={() => handleClickOpen(item)}
                         />
-                        <Button
-                            className={styles.button}
-                            variant="contained"
-                            color="secondary"
-                            onClick={search}
-                        >
-                            검색
-                        </Button>
-                    </form>
-                    <ul>
-                        {searchData &&
-                            searchData.map((item) => (
-                                <SearchItem
-                                    key={item.rid}
-                                    data={item}
-                                    handleClick={() => handleClickOpen(item)}
-                                />
-                            ))}
-                        {searchData.length == 0 && <Typography sx={{width: "100%", textAlign: "center", color: "white", fontSize: "2rem", mb: 3}}>검색결과가 존재하지 않습니다.</Typography>}
-                    </ul>
-                    <Pagination
-                        count={totalCount}
-                        size="large"
-                        color="primary"
-                        id="pagination"
-                        sx={{ justifyContent: "center", display: "flex" }}
-                        onChange={pageChange}
-                        renderItem={(item) => (
-                            <PaginationItem {...item} sx={{ color: "#fff" }} />
-                        )}
+                    ))}
+                {searchData?.length == 0 && <Typography sx={{ width: "100%", textAlign: "center", color: "white", fontSize: "2rem", mb: 3 }}>검색결과가 존재하지 않습니다.</Typography>}
+            </ul>
+            <Pagination
+                count={totalCount}
+                size="large"
+                color="primary"
+                id="pagination"
+                sx={{ justifyContent: "center", display: "flex" }}
+                onChange={pageChange}
+                renderItem={(item) => (
+                    <PaginationItem {...item}
+                        sx={{ color: "#fff" }}
                     />
-                    <Detail
-                        open={openDetail}
-                        onClose={handleClose}
-                        restaurantProp={currentRestaurant}
-                    />
+                )}
+            />
+            <Detail
+                open={openDetail}
+                onClose={handleClose}
+                restaurantProp={currentRestaurant}
+            />
         </Container >
     );
 };
